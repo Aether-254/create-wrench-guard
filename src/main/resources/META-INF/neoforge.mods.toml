@@ -3,40 +3,39 @@ loaderVersion="[4,)"
 license="MIT"
 
 [[mods]]
-modId="create_unrestricted_vault"
-version="\${version}"
-displayName="Create: Unrestricted Vault"
+modId="create_wrench_guard"
+version="${version}"
+displayName="Create: Wrench Guard"
 authors="Aether_254"
-description='''Makes Create Item Vault width and length limits configurable and adds optional vertical Item Vaults without changing Vault Capability.'''
+description='''Adds configurable allow, confirmation and deny rules to Create wrench removal.'''
 
 [[mixins]]
-config="create_unrestricted_vault.mixins.json"
+config="create_wrench_guard.mixins.json"
 
-[[dependencies.create_unrestricted_vault]]
+[[dependencies.create_wrench_guard]]
 modId="neoforge"
 type="required"
 versionRange="[21.1.219,)"
 ordering="NONE"
 side="BOTH"
 
-[[dependencies.create_unrestricted_vault]]
+[[dependencies.create_wrench_guard]]
 modId="minecraft"
 type="required"
 versionRange="[1.21.1,1.21.2)"
 ordering="NONE"
 side="BOTH"
 
-[[dependencies.create_unrestricted_vault]]
+[[dependencies.create_wrench_guard]]
 modId="create"
 type="required"
 versionRange="[6.0.11,)"
 ordering="AFTER"
 side="BOTH"
 
-[[dependencies.create_unrestricted_vault]]
+[[dependencies.create_wrench_guard]]
 modId="cloth_config"
 type="required"
 versionRange="[15.0.140,)"
 ordering="AFTER"
 side="BOTH"
-
