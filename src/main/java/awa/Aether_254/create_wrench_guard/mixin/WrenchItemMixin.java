@@ -1,5 +1,6 @@
 package awa.Aether_254.create_wrench_guard.mixin;
 
+import awa.Aether_254.create_wrench_guard.PendingConfirmation;
 import awa.Aether_254.create_wrench_guard.WrenchGuardConfig;
 import awa.Aether_254.create_wrench_guard.WrenchGuardConfig.Mode;
 import com.simibubi.create.AllTags;
@@ -87,9 +88,9 @@ abstract class WrenchItemMixin {
     private static boolean consumeConfirmation(Player player, UseOnContext context) {
         PendingConfirmation pending = wrenchGuard$pending.remove(player.getUUID());
         return pending != null
-            && pending.pos.equals(context.getClickedPos())
-            && pending.dimension.equals(context.getLevel().dimension().location().toString())
-            && pending.expiresAt >= context.getLevel().getGameTime();
+            && pending.pos().equals(context.getClickedPos())
+            && pending.dimension().equals(context.getLevel().dimension().location().toString())
+            && pending.expiresAt() >= context.getLevel().getGameTime();
     }
 
     @Unique
@@ -110,9 +111,5 @@ abstract class WrenchItemMixin {
     @Unique
     private static void actionbar(Player player, String message) {
         player.displayClientMessage(Component.literal(message).withStyle(ChatFormatting.GOLD), true);
-    }
-
-    @Unique
-    private record PendingConfirmation(BlockPos pos, String dimension, long expiresAt) {
     }
 }
