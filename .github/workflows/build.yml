@@ -1,0 +1,30 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        if: ${{ hashFiles('gradlew') != '' }}
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+      - run: chmod +x gradlew
+        if: ${{ hashFiles('gradlew') != '' }}
+      - run: ./gradlew build --stacktrace
+        if: ${{ hashFiles('gradlew') != '' }}
+      - uses: actions/upload-artifact@v4
+        if: ${{ hashFiles('gradlew') != '' }}
+        with:
+          name: ${{ github.event.repository.name }}-${{ github.run_id }}
+          path: build/libs/*.jar
+          if-no-files-found: error
