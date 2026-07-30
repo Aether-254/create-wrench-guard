@@ -33,6 +33,9 @@ public final class WrenchGuardConfig {
             if (Files.isRegularFile(PATH)) {
                 Data loaded = GSON.fromJson(Files.readString(PATH), Data.class);
                 data = loaded == null ? defaults() : loaded;
+                if (data.protectedBlocks != null && !data.protectedBlocks.isEmpty()
+                    && data.protectedBlocks.stream().allMatch(rule -> Mode.parse(rule.doBreak) == Mode.ALLOW))
+                    data.protectedBlocks.forEach(rule -> rule.doBreak = "warn");
             }
         } catch (IOException | RuntimeException ignored) {
             data = defaults();
@@ -102,7 +105,7 @@ public final class WrenchGuardConfig {
             "minecraft:daylight_detector", "minecraft:target", "minecraft:hopper",
             "#minecraft:buttons", "#minecraft:pressure_plates", "#minecraft:rails"
         ))
-            result.protectedBlocks.add(new Rule(block, "allow"));
+            result.protectedBlocks.add(new Rule(block, "warn"));
         return result;
     }
 
