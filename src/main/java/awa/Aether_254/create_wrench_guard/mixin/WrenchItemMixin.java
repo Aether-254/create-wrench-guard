@@ -46,6 +46,11 @@ abstract class WrenchItemMixin {
             return;
 
         Mode mode = WrenchGuardConfig.modeFor(state);
+        if (context.getLevel().isClientSide) {
+            if (mode != Mode.ALLOW)
+                cir.setReturnValue(InteractionResult.SUCCESS);
+            return;
+        }
         if (mode == Mode.DENY) {
             actionbar(player, state.getBlock().getName().getString() + " 已被保护，无法拆除。");
             cir.setReturnValue(InteractionResult.SUCCESS);
@@ -76,7 +81,7 @@ abstract class WrenchItemMixin {
     @Inject(method = "useOn", at = @At("RETURN"))
     private void wrenchGuard$afterRemoval(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir) {
         Player player = context.getPlayer();
-        if (player == null)
+        if (player == null || context.getLevel().isClientSide)
             return;
         BlockPos confirmed = wrenchGuard$confirmed.remove(player.getUUID());
         if (confirmed != null && confirmed.equals(context.getClickedPos())
